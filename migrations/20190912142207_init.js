@@ -12,7 +12,8 @@ exports.up = function(knex) {
       tbl.primary(['recipe', 'ordinal']);
     })
     .createTable('ingredients', tbl => {
-      tbl.increments()
+      tbl.increments();
+      tbl.string('name', 32).notNullable();
     })
     .createTable('recipe-ingredients', tbl => {
       tbl.increments()
