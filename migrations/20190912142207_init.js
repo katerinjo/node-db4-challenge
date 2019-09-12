@@ -6,18 +6,32 @@ exports.up = function(knex) {
       tbl.string('name', 32).notNullable();
     })
     .createTable('steps', tbl => {
-      tbl.integer('recipe').unsigned().notNullable();
+      tbl.integer('recipe')
+        .unsigned()
+        .references('id')
+        .inTable('recipes')
+        .notNullable();
       tbl.integer('ordinal').unsigned().notNullable();
       tbl.string('body', 512).notNullable();
       tbl.primary(['recipe', 'ordinal']);
     })
     .createTable('ingredients', tbl => {
       tbl.increments();
-      tbl.string('name', 32).notNullable();
+      tbl.string('name', 32).unique().notNullable();
     })
     .createTable('recipes-ingredients', tbl => {
-      tbl.integer('recipe').unsigned().notNullable();
-      tbl.integer('ingredient').unsigned().notNullable();
+      tbl
+        .integer('recipe')
+        .unsigned()
+        .references('id')
+        .inTable('recipes')
+        .notNullable();
+      tbl
+        .integer('ingredient')
+        .unsigned()
+        .references('id')
+        .inTable('ingredients')
+        .notNullable();
       tbl.float('quantity').unsigned().notNullable();
       tbl.string('unit', 16);
     });
@@ -25,8 +39,8 @@ exports.up = function(knex) {
 
 exports.down = function(knex) {
   return knex.schema
-    .dropTable('recipes')
-    .dropTable('steps')
-    .dropTable('ingredients')
-    .dropTable('recipe-ingredients');
+    .dropTableIfExists('recipes')
+    .dropTableIfExists('steps')
+    .dropTableIfExists('ingredients')
+    .dropTableIfExists('recipe-ingredients');
 };
