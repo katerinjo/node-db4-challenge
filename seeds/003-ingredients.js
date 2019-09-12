@@ -1,5 +1,5 @@
 exports.seed = function(knex) {
-  return knex('recipes').insert([
+  return knex('ingredients').insert([
     {
       name: 'chips'
     },

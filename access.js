@@ -2,13 +2,15 @@ const db = require('./dbConfig');
 
 function getRecipes() {
   return db('recipes')
-    .select();
+    .select('name');
 }
 
 function getShoppingList(recipeID) {
   return db('recipes as r')
-    .join('ingredients as i', 'i.recipe', 'r.id')
-    .select('i.name');
+    .where({ 'r.id': recipeID })
+    .join('recipes-ingredients as ri', 'ri.recipe', 'r.id')
+    .join('ingredients as i', 'ri.ingredient', 'i.id')
+    .select('i.name', 'ri.quantity', 'ri.unit');
 }
 
 function getInstructions(recipeID) {

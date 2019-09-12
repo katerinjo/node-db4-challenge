@@ -1,6 +1,6 @@
 
 exports.seed = function(knex) {
-  return knex('table_name').insert([
+  return knex('recipes-ingredients').insert([
     {
       recipe: 1,
       ingredient: 1,
