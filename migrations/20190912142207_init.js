@@ -15,8 +15,11 @@ exports.up = function(knex) {
       tbl.increments();
       tbl.string('name', 32).notNullable();
     })
-    .createTable('recipe-ingredients', tbl => {
-      tbl.increments()
+    .createTable('recipes-ingredients', tbl => {
+      tbl.integer('recipe').unsigned().notNullable();
+      tbl.integer('ingredient').unsigned().notNullable();
+      tbl.float('quantity').unsigned().notNullable();
+      tbl.string('unit', 16);
     });
 };
 
