@@ -6,7 +6,10 @@ exports.up = function(knex) {
       tbl.string('name', 32).notNullable();
     })
     .createTable('steps', tbl => {
-      tbl.increments()
+      tbl.integer('recipe').unsigned().notNullable();
+      tbl.integer('ordinal').unsigned().notNullable();
+      tbl.string('body', 512).notNullable();
+      tbl.primary(['recipe', 'ordinal']);
     })
     .createTable('ingredients', tbl => {
       tbl.increments()
